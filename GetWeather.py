@@ -2,12 +2,6 @@ import os
 import requests
 from bs4 import BeautifulSoup as bsp
 
-#URL parts to creating different url-s
-URL0 = 'https://rp5.ru/Погода_в_мире'
-URLi = ''
-URL1 = ''
-URL = URL0
-
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0',
            'accept': '*/*'}
 
@@ -34,5 +28,3 @@ def parse(addr):
         print('Error') 
     return(data)
 
-countries_list, countries_links = parse(URL) 
-print(countries_links)
