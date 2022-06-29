@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup as bsp
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0',
            'accept': '*/*'}
 
+URL0 = 'https://rp5.ru'
+URL1 = '/Погода_в_мире'
+URL = URL0 + URL1
+
 def getHtml(url, params=None):
     r = requests.get(url, headers = HEADERS, params = params)
     return(r)
@@ -20,7 +24,10 @@ def getContent(html):
             countries_links.append(item.find('a').get('href'))
     return(countries, countries_links)
 
-def parse(addr):
+def parse(mode):
+    if mode == 1:
+    	print("Parser starts")
+    addr = URL
     html = getHtml(addr)
     if html.status_code == 200:
         data = getContent(html.text) 
