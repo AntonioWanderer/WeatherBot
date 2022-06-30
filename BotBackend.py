@@ -43,14 +43,14 @@ def BotMessage():
 					r = fuzz.ratio(country, text)
 					if r == 100:
 						high.append(country)
-					if r > 70:
+					if r > 50:
 						mid.append(country)
 				if high == []:
 					await bot.send_message(msg.from_user.id, "Нет точных совпадений. Возможно, вы имели в виду что-то из:")
 					for c in mid:
 						await bot.send_message(msg.from_user.id, c)
 					if mid == []:
-						bot.send_message(msg.from_user.id, "Нет даже примерных совпадений, хм")
+						await bot.send_message(msg.from_user.id, "Нет даже примерных совпадений, хм")
 				else:
 					
 					await bot.send_message(msg.from_user.id, "Страна найдена, введите регион")
@@ -59,7 +59,54 @@ def BotMessage():
 			elif "Регион" in Deep_id[UserId(msg)]:
 				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Регион","")
 				print(Url_reg)
-				
+				countries, countries_links = Parser.parse(1, Url_reg)
+				high = []
+				mid = []
+				text = msg.text
+				for country in countries:
+					r = fuzz.ratio(country, text)
+					if r == 100:
+						high.append(country)
+					if r > 50:
+						mid.append(country)
+				if high == []:
+					await bot.send_message(msg.from_user.id, "Нет точных совпадений. Возможно, вы имели в виду что-то из:")
+					for c in mid:
+						await bot.send_message(msg.from_user.id, c)
+					if mid == []:
+						await bot.send_message(msg.from_user.id, "Нет даже примерных совпадений, хм")
+				else:
+					
+					await bot.send_message(msg.from_user.id, "Регион найден, введите населённый пункт")
+					Deep_id[UserId(msg)] = "Город" + countries_links[countries.index(high[-1])]
+			
+			elif "Город" in Deep_id[UserId(msg)]:
+				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Город","")
+				print(Url_reg)
+				countries, countries_links = Parser.parse(1, Url_reg)
+				high = []
+				mid = []
+				text = msg.text
+				for country in countries:
+					r = fuzz.ratio(country, text)
+					if r == 100:
+						high.append(country)
+					if r > 50:
+						mid.append(country)
+				if high == []:
+					await bot.send_message(msg.from_user.id, "Нет точных совпадений. Возможно, вы имели в виду что-то из:")
+					for c in mid:
+						await bot.send_message(msg.from_user.id, c)
+					if mid == []:
+						await bot.send_message(msg.from_user.id, "Нет даже примерных совпадений, хм")
+				else:
+					
+					await bot.send_message(msg.from_user.id, "Населённый пункт найден, ура!")
+					Deep_id[UserId(msg)] = "Точка" + countries_links[countries.index(high[-1])]
+					
+			elif "Точка" in Deep_id[UserId(msg)]:
+				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Точка","")
+				print(Url_reg)
 				
 			else:
 				await bot.send_message(msg.from_user.id, "Excuse me, I don't understand")
