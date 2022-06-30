@@ -35,7 +35,9 @@ def BotMessage():
 			Deep_id[UserId(msg)] = "Страна"
 		else:
 			if Deep_id[UserId(msg)] == "Страна":
-				countries, countries_links = Parser.parse(1, URL)
+				Url_reg = URL
+				
+				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
 				text = msg.text
@@ -52,14 +54,14 @@ def BotMessage():
 					if mid == []:
 						await bot.send_message(msg.from_user.id, "Нет даже примерных совпадений, хм")
 				else:
+					Deep_id[UserId(msg)] = "Регион" + countries_links[countries.index(high[-1])]
 					
 					await bot.send_message(msg.from_user.id, "Страна найдена, введите регион")
-					Deep_id[UserId(msg)] = "Регион" + countries_links[countries.index(high[-1])]
 			
 			elif "Регион" in Deep_id[UserId(msg)]:
 				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Регион","")
 				print(Url_reg)
-				countries, countries_links = Parser.parse(1, Url_reg)
+				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
 				text = msg.text
@@ -83,7 +85,7 @@ def BotMessage():
 			elif "Город" in Deep_id[UserId(msg)]:
 				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Город","")
 				print(Url_reg)
-				countries, countries_links = Parser.parse(1, Url_reg)
+				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
 				text = msg.text
