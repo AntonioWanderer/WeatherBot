@@ -36,18 +36,7 @@ def BotMessage():
 		else:
 			if Deep_id[UserId(msg)] == "Страна":
 				Url_reg = URL
-				if not (URL0+"/") in Url_reg:
-					Url_reg.replace(URL0, URL0+"/")
-				countries, countries_links = Parser.parse(Url_reg)
-				high = []
-				mid = []
-				text = msg.text
-				for country in countries:
-					r = fuzz.ratio(country, text)
-					if r == 100:
-						high.append(country)
-					if r > 50:
-						mid.append(country)
+				high, mid, countries, countries_links = FindDisp(msg, Url_reg)
 				if high == []:
 					await bot.send_message(msg.from_user.id, "Нет точных совпадений. Возможно, вы имели в виду что-то из:")
 					for c in mid:
@@ -63,7 +52,7 @@ def BotMessage():
 				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Регион","")
 				print(Url_reg)
 				if not (URL0+"/") in Url_reg:
-					Url_reg.replace(URL0, URL0+"/")
+					Url_reg = Url_reg.replace(URL0, URL0+"/")
 				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
@@ -90,8 +79,6 @@ def BotMessage():
 				print(Url_reg)
 				if not (URL0+"/") in Url_reg:
 					Url_reg = Url_reg.replace(URL0, URL0+"/")
-					print("!!!")
-					print(Url_reg)
 				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
@@ -125,3 +112,18 @@ def BotPolling():
 	
 def UserId(msg):
 	return(msg.chat.id)
+	
+def FindDisp(msg, Url_reg):
+	if not (URL0+"/") in Url_reg:
+		Url_reg = Url_reg.replace(URL0, URL0+"/")
+	countries, countries_links = Parser.parse(Url_reg)
+	high = []
+	mid = []
+	text = msg.text
+	for country in countries:
+		r = fuzz.ratio(country, text)
+		if r == 100:
+			high.append(country)
+		if r > 50:
+			mid.append(country)
+	return(high, mid, countries, countries_links)
