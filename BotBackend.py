@@ -36,7 +36,8 @@ def BotMessage():
 		else:
 			if Deep_id[UserId(msg)] == "Страна":
 				Url_reg = URL
-				
+				if not (URL0+"/") in Url_reg:
+					Url_reg.replace(URL0, URL0+"/")
 				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
@@ -61,6 +62,8 @@ def BotMessage():
 			elif "Регион" in Deep_id[UserId(msg)]:
 				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Регион","")
 				print(Url_reg)
+				if not (URL0+"/") in Url_reg:
+					Url_reg.replace(URL0, URL0+"/")
 				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []
@@ -85,6 +88,10 @@ def BotMessage():
 			elif "Город" in Deep_id[UserId(msg)]:
 				Url_reg = URL0 + Deep_id[UserId(msg)].replace("Город","")
 				print(Url_reg)
+				if not (URL0+"/") in Url_reg:
+					Url_reg = Url_reg.replace(URL0, URL0+"/")
+					print("!!!")
+					print(Url_reg)
 				countries, countries_links = Parser.parse(Url_reg)
 				high = []
 				mid = []

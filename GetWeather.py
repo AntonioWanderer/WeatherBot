@@ -1,4 +1,3 @@
-import os
 import requests
 from bs4 import BeautifulSoup as bsp
 
@@ -15,12 +14,15 @@ def parse(addr):
 		soup = bsp(html.text, 'html.parser') 
 		countries = []
 		countries_links = []
-		cell = soup.find('div', class_ = 'countryMap') 
+		cell = soup
 		items = cell.find_all('a')
+		print("Done")
 		for item in items:
-    			countries_links.append(item.get('href'))			
-    			countries.append(item.get_text())
+			try:
+				countries_links.append(item.get('href'))			
+				countries.append(item.get_text())
+			except:
+				print("An exception, not tag, we need")
 	else:
-        	print('Error') 
+		print('Error') 
 	return(countries, countries_links)
-
