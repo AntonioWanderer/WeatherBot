@@ -26,3 +26,10 @@ def parse(addr):
 	else:
 		print('Error') 
 	return(countries, countries_links)
+	
+def parseFinal(addr):
+	html = getHtml(addr)
+	if html.status_code == 200:
+		soup = bsp(html.text, 'html.parser') 
+		currentTemp = soup.find('div', class_ = "ArchiveTemp").find('span').get_text()
+		return currentTemp
